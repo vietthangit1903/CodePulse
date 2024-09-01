@@ -20,9 +20,27 @@ namespace CodePulse.API.Repositories.Implementation
             return newCategory;
         }
 
+        public async Task<Category?> FindByIdAsync(Guid id)
+        {
+            return await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
         {
             return await _context.Categories.ToListAsync();
+        }
+
+        public async Task<Category?> UpdateCategoryAsync(Category updateCategory)
+        {
+           var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == updateCategory.Id);
+            if (existingCategory != null)
+            {
+                existingCategory.Name = updateCategory.Name;
+                existingCategory.UrlHandle = updateCategory.UrlHandle;
+                await _context.SaveChangesAsync();
+                return existingCategory;
+            }
+            return null;
         }
     }
 }
