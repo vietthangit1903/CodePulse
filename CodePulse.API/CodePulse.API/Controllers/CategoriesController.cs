@@ -82,8 +82,8 @@ namespace CodePulse.API.Controllers
         [HttpPut]
         [Route("{categoryId:Guid}")]
         public async Task<IActionResult> UpdateCategoryByIdAsync(
-            [FromRoute] Guid categoryId,
-            [FromBody] UpdateCategoryRequestDTO updateCategoryRequest)
+        [FromRoute] Guid categoryId,
+        [FromBody] UpdateCategoryRequestDTO updateCategoryRequest)
         {
             var updateCategory = new Category()
             {
@@ -105,6 +105,25 @@ namespace CodePulse.API.Controllers
             };
             return Ok(response);
 
+        }
+
+        //DELETE: https://localhost:7070/api/Categories/{id}
+        [HttpDelete]
+        [Route("{categoryId:Guid}")]
+        public async Task<IActionResult> DeleteCategory([FromRoute] Guid categoryId)
+        {
+            var existingCategory = await _categoryRepository.DeleteCategoryAsync(categoryId);
+            if( existingCategory is null)
+            {
+                return BadRequest();
+            }
+            var response = new CategoryDTO
+            {
+                Id = existingCategory.Id,
+                Name = existingCategory.Name,
+                UrlHandle = existingCategory.UrlHandle
+            };
+            return Ok(response);
         }
     }
 }
