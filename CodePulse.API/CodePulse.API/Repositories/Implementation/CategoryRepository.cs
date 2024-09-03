@@ -42,5 +42,17 @@ namespace CodePulse.API.Repositories.Implementation
             }
             return null;
         }
+
+        public async Task<Category?> DeleteCategoryAsync(Guid id)
+        {
+            var existingCategory = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+            if (existingCategory is not null)
+            {
+                _context.Categories.Remove(existingCategory);
+                await _context.SaveChangesAsync();
+                return existingCategory;
+            }
+            return null;
+        }
     }
 }

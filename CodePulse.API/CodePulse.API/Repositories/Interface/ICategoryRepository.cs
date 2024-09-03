@@ -11,5 +11,7 @@ namespace CodePulse.API.Repositories.Interface
         Task<Category?> FindByIdAsync(Guid id);
 
         Task<Category?> UpdateCategoryAsync(Category updateCategory);
+
+        Task<Category?> DeleteCategoryAsync(Guid id);
     }
 }
