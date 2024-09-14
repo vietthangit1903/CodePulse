@@ -24,7 +24,7 @@ export class CategoryService {
       `${environment.apiBaseUrl}/api/Categories`
     );
   }
-  getCatategoryById(id: string): Observable<Category> {
+  getCategoryById(id: string): Observable<Category> {
     return this.http.get<Category>(
       `${environment.apiBaseUrl}/api/Categories/${id}`
     );
@@ -40,7 +40,9 @@ export class CategoryService {
     );
   }
 
-  deleteCategory(id: string): Observable<Category>{
-    return this.http.delete<Category>(`${environment.apiBaseUrl}/api/Categories/${id}`)
+  deleteCategory(id: string): Observable<Category> {
+    return this.http.delete<Category>(
+      `${environment.apiBaseUrl}/api/Categories/${id}`
+    );
   }
 }
