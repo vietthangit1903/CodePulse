@@ -5,4 +5,22 @@
       >Add blog post</a
     >
   </div>
+  <ng-container *ngIf="blogPosts$ | async as blogPosts">
+    <table class="table table-bordered mt-3">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Short Description</th>
+          <th>Is Visible</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of blogPosts">
+          <td>{{ post.title }}</td>
+          <td>{{ post.shortDescription }}</td>
+          <td>{{ post.isVisible }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
 </div>
