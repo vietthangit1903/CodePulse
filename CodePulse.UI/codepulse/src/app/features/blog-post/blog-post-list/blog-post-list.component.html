@@ -13,6 +13,7 @@
           <th>Short Description</th>
           <th>Is Visible</th>
           <th>Categories</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -35,6 +36,13 @@
             <ng-container *ngFor="let category of post.categories">
               <span class="badge me-2">{{ category.name }}</span>
             </ng-container>
+          </td>
+          <td>
+            <a
+              class="btn btn-light"
+              [routerLink]="['/admin/blog-posts', post.id]"
+              >Edit</a
+            >
           </td>
         </tr>
       </tbody>
