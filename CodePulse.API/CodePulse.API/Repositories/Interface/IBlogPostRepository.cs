@@ -11,5 +11,8 @@ namespace CodePulse.API.Repositories.Interface
         Task<BlogPost?> GetByIdAsync(Guid postId);
 
         Task<BlogPost?> UpdateAsync(BlogPost blogPost);
+
+        Task<BlogPost?> DeleteAsync(Guid postId);
+
     }
 }

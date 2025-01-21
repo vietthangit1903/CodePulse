@@ -1,9 +1,7 @@
 ﻿using CodePulse.API.Models.Domain;
 using CodePulse.API.Models.DTOs;
 using CodePulse.API.Repositories.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CodePulse.API.Controllers
 {
@@ -105,7 +103,7 @@ namespace CodePulse.API.Controllers
         public async Task<IActionResult> GetBlogPostById([FromRoute] Guid postId)
         {
             var blogPost = await blogPostRepository.GetByIdAsync(postId);
-            if(blogPost is null)
+            if (blogPost is null)
             {
                 return NotFound();
             }
@@ -164,7 +162,8 @@ namespace CodePulse.API.Controllers
 
             var updatedBlogPost = await blogPostRepository.UpdateAsync(blogPost);
 
-            if (updatedBlogPost is null) {
+            if (updatedBlogPost is null)
+            {
                 return BadRequest("An error occured while updating blog post");
             }
 
@@ -187,6 +186,31 @@ namespace CodePulse.API.Controllers
                 }).ToList()
             };
 
+            return Ok(response);
+        }
+
+        //DELETE: {apiBaseURL}/api/blogposts/{id}
+        [HttpDelete]
+        [Route("{postId:Guid}")]
+        public async Task<IActionResult> DeleteBlogPostById([FromRoute] Guid postId)
+        {
+            var deletedBlogPost = await blogPostRepository.DeleteAsync(postId);
+            if (deletedBlogPost is null)
+            {
+                return NotFound();
+            }
+            var response = new BlogPostDTO
+            {
+                Id = deletedBlogPost.Id,
+                Title = deletedBlogPost.Title,
+                ShortDescription = deletedBlogPost.ShortDescription,
+                Content = deletedBlogPost.Content,
+                FeaturedImageUrl = deletedBlogPost.FeaturedImageUrl,
+                UrlHandle = deletedBlogPost.UrlHandle,
+                PublishedDate = deletedBlogPost.PublishedDate,
+                Author = deletedBlogPost.Author,
+                IsVisible = deletedBlogPost.IsVisible,
+            };
             return Ok(response);
         }
     }
