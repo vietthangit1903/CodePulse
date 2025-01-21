@@ -20,6 +20,7 @@ export class EditBlogPostComponent implements OnInit, OnDestroy {
   routeSubscription?: Subscription;
   getBlogPostSubscription?: Subscription;
   updateBlogPostSubscription?: Subscription;
+  deleteBlogPostSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,6 +54,7 @@ export class EditBlogPostComponent implements OnInit, OnDestroy {
     this.routeSubscription?.unsubscribe();
     this.getBlogPostSubscription?.unsubscribe();
     this.updateBlogPostSubscription?.unsubscribe();
+    this.deleteBlogPostSubscription?.unsubscribe();
   }
 
   onFormSubmit(): void {
@@ -73,6 +75,21 @@ export class EditBlogPostComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (response) => {
             this.router.navigateByUrl('admin/blog-posts');
+          },
+        });
+    }
+  }
+
+  onDelete() {
+    if (this.id) {
+      this.deleteBlogPostSubscription = this.blogPostService
+        .deleteBlogPost(this.id)
+        .subscribe({
+          next: (response) => {
+            this.router.navigateByUrl('admin/blog-posts');
+          },
+          error: () => {
+            alert('This post id is not found');
           },
         });
     }
