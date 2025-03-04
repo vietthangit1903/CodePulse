@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/csharp,dotnetcore,angular,web
 # Edit at https://www.toptal.com/developers/gitignore?templates=csharp,dotnetcore,angular,web
 
+# Image Upload Folder
+[Ii]mages/
+
+
 ### Angular ###
 ## Angular ##
 # compiled output

@@ -13,6 +13,8 @@ import { BlogPostListComponent } from './features/blog-post/blog-post-list/blog-
 import { AddBlogPostComponent } from './features/blog-post/add-blog-post/add-blog-post.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { EditBlogPostComponent } from './features/blog-post/edit-blog-post/edit-blog-post.component';
+import { ImageSelectorComponent } from './shared/components/image-selector/image-selector.component';
+import { ModalComponent } from './shared/components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { EditBlogPostComponent } from './features/blog-post/edit-blog-post/edit-
     BlogPostListComponent,
     AddBlogPostComponent,
     EditBlogPostComponent,
+    ImageSelectorComponent,
+    ModalComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule, MarkdownModule.forRoot()],
   providers: [],

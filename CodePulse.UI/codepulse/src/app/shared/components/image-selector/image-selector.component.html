@@ -1,0 +1,72 @@
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Images</h3>
+  </div>
+  <div class="card-body">
+    <div class="d-flex flex-md-row flex-sm-column flex-wrap">
+      <div
+        class="col-8 p-4 d-flex flex-wrap gap-4"
+        style="height: 80vh; overflow-y: scroll"
+      >
+        <ng-container *ngIf="images">
+          <div
+            *ngFor="let image of images"
+            class="d-flex align-items-center flex-column border"
+            style="max-height: 350px; cursor: pointer"
+            (click)="selectImage(image)"
+          >
+            <img
+              [src]="image.url"
+              [alt]="image.fileName"
+              [title]="image.title"
+              height="300"
+            />
+            <span class="mt-1">{{ image.title }}</span>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-4 p-4 bg-light">
+        <h5>Upload image</h5>
+        <form #form="ngForm" (ngSubmit)="onUploadImageFormSubmit()">
+          <div class="mt-3">
+            <input
+              type="file"
+              class="form-control"
+              accept="image/*"
+              (change)="onFileUploadChange($event)"
+            />
+          </div>
+          <div class="input-group mt-3">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="File name"
+                name="fileName"
+                id="fileName"
+                [(ngModel)]="fileName"
+              />
+              <label for="fileName">File Name</label>
+            </div>
+          </div>
+          <div class="input-group mt-3">
+            <div class="form-floating">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Title"
+                name="title"
+                [(ngModel)]="fileTitle"
+                id="fileTitle"
+              />
+              <label for="fileTitle">File Title</label>
+            </div>
+          </div>
+          <div class="mt-3">
+            <button type="submit" class="btn btn-dark">Upload</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
