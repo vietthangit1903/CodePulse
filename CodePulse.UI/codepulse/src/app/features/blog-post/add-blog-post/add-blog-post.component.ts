@@ -1,23 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AddBlogPost } from '../models/add-blog-post.model';
 import { BlogPostService } from '../services/blog-post.service';
 import { Router } from '@angular/router';
 import { CategoryService } from '../../category/services/category.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Category } from '../../category/models/category.model';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-add-blog-post',
   templateUrl: './add-blog-post.component.html',
   styleUrls: ['./add-blog-post.component.css'],
 })
-export class AddBlogPostComponent implements OnInit {
+export class AddBlogPostComponent implements OnInit, OnDestroy {
   model: AddBlogPost;
   categories$?: Observable<Category[]>
+  isImageSelectorModalOpen: boolean = false;
+  shareServiceSubscription?: Subscription;
+
   constructor(
     private _blogPostService: BlogPostService,
     private _categoriesService: CategoryService,
-    private _router: Router
+    private _router: Router,
+    private shareService: SharedService
   ) {
     this.model = {
       title: '',
@@ -34,6 +39,18 @@ export class AddBlogPostComponent implements OnInit {
 
   ngOnInit(): void {
     this.categories$ = this._categoriesService.getAllCategories();
+    this.shareServiceSubscription = this.shareService.data$.subscribe({
+      next: (value) => {
+        if (this.model) {
+          this.model.featuredImageUrl = value.url;
+          this.closeImageSelector();
+        }
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.shareServiceSubscription?.unsubscribe();
   }
 
   onFormSubmit(): void {
@@ -45,5 +62,13 @@ export class AddBlogPostComponent implements OnInit {
         console.log(response);
       },
     });
+  }
+
+  openImageSelector(): void {
+    this.isImageSelectorModalOpen = true;
+  }
+
+  closeImageSelector(): void {
+    this.isImageSelectorModalOpen = false;
   }
 }

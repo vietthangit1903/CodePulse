@@ -6,6 +6,7 @@ import { BlogPost } from '../models/blog-post.model';
 import { CategoryService } from '../../category/services/category.service';
 import { Category } from '../../category/models/category.model';
 import { UpdateBlogPost } from '../models/update-blog-post';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-edit-blog-post',
@@ -21,12 +22,15 @@ export class EditBlogPostComponent implements OnInit, OnDestroy {
   getBlogPostSubscription?: Subscription;
   updateBlogPostSubscription?: Subscription;
   deleteBlogPostSubscription?: Subscription;
+  shareServiceSubscription?: Subscription;
+  isImageSelectorModalOpen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private blogPostService: BlogPostService,
     private categoryService: CategoryService,
-    private router: Router
+    private router: Router,
+    private shareService: SharedService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +52,15 @@ export class EditBlogPostComponent implements OnInit, OnDestroy {
         }
       },
     });
+
+    this.shareServiceSubscription = this.shareService.data$.subscribe({
+      next: (value) => {
+        if (this.editPost) {
+          this.editPost.featuredImageUrl = value.url;
+          this.closeImageSelector();
+        }
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -55,6 +68,7 @@ export class EditBlogPostComponent implements OnInit, OnDestroy {
     this.getBlogPostSubscription?.unsubscribe();
     this.updateBlogPostSubscription?.unsubscribe();
     this.deleteBlogPostSubscription?.unsubscribe();
+    this.shareServiceSubscription?.unsubscribe();
   }
 
   onFormSubmit(): void {
@@ -93,5 +107,13 @@ export class EditBlogPostComponent implements OnInit, OnDestroy {
           },
         });
     }
+  }
+
+  openImageSelector(): void {
+    this.isImageSelectorModalOpen = true;
+  }
+
+  closeImageSelector(): void {
+    this.isImageSelectorModalOpen = false;
   }
 }
