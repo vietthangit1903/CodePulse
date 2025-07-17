@@ -1,0 +1,31 @@
+<div class="containter">
+  <div class="m-5">
+    <div class="row align-items-stretch">
+      <ng-container *ngIf="blogPosts$ | async as blogs">
+        <div class="col-lg-3 col-md-4" *ngFor="let blog of blogs">
+          <div class="card h-100 mx-4 mb-4 shadow-lg rounded-3">
+            <img
+              [src]="blog.featuredImageUrl"
+              [alt]="blog.title"
+              class="card-img-top shadow-sm border-bottom rounded-3"
+            />
+            <div class="card-body d-flex flex-column position-relative">
+              <h5 class="card-title">{{ blog.title }}</h5>
+              <p class="card-text">{{ blog.shortDescription }}</p>
+              <span class="d-flex align-items-end" style="flex: 1">
+                <a
+                  [routerLink]="['/blog', blog.urlHandle]"
+                  class="btn btn-primary"
+                  >Read More</a
+                >
+                <span class="ms-auto text-muted">{{
+                  blog.publishedDate | date : "longDate"
+                }}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
